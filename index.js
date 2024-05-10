@@ -32,21 +32,11 @@ const start = async () => {
     };
 
     client.ev.on('connection.update', async (update) => {
-        const { connection, lastDisconnect } = update;
-        if (update.qr) console.log(`📱 Scan the QR code!!`);
-        if (connection === 'close') {
-            const { statusCode } = new Boom(lastDisconnect?.error).output;
-            if (statusCode !== DisconnectReason.loggedOut) setTimeout(() => start(), 3000);
-            else {
-                console.log('❌ Disconnected :("');
-                await remove("session");
-                console.log('🔄 Restarting...');
-                setTimeout(() => start(), 3000);
-            }
-        }
-        if (connection === 'connecting') console.log('🔗 Connecting to WhatsApp!!');
-        if (connection === 'open') console.log('✅ Connected to WhatsApp');
-    });
+    const { connection } = update;
+    if (update.qr) console.log(`📱 Scan the QR code!!`);
+    if (connection === 'connecting') console.log('🔗 Connecting to WhatsApp!!');
+    if (connection === 'open') console.log('✅ Connected to WhatsApp');
+});
 
     client.ev.on('messages.upsert', async ({ messages, type }) => {
         if (type !== 'notify') return;
