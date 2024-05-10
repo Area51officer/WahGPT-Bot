@@ -3,7 +3,6 @@ import { remove } from 'fs-extra';
 import { serialize } from './lib/waClient.js';
 import axios from 'axios';
 import P from 'pino';
-import { Boom } from '@hapi/boom';
 
 const start = async () => {
     console.log('\x1b[36m%s\x1b[0m', '╭───────────────────────────────────────╮');
@@ -15,7 +14,7 @@ const start = async () => {
     console.log('\x1b[36m%s\x1b[0m', '╰───────────────────────────────────────╯');
 
     const { useMultiFileAuthState, fetchLatestBaileysVersion } = ws;
-    const { default: makeWASocket, DisconnectReason } = ws;
+    const { default: makeWASocket } = ws;
 
     const { state, saveCreds } = await useMultiFileAuthState("session");
     const client = makeWASocket({
@@ -32,11 +31,11 @@ const start = async () => {
     };
 
     client.ev.on('connection.update', async (update) => {
-    const { connection } = update;
-    if (update.qr) console.log(`📱 Scan the QR code!!`);
-    if (connection === 'connecting') console.log('🔗 Connecting to WhatsApp!!');
-    if (connection === 'open') console.log('✅ Connected to WhatsApp');
-});
+        const { connection } = update;
+        if (update.qr) console.log(`📱 Scan the QR code!!`);
+        if (connection === 'connecting') console.log('🔗 Connecting to WhatsApp!!');
+        if (connection === 'open') console.log('✅ Connected to WhatsApp');
+    });
 
     client.ev.on('messages.upsert', async ({ messages, type }) => {
         if (type !== 'notify') return;
