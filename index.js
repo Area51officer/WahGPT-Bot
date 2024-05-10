@@ -31,11 +31,11 @@ const start = async () => {
     };
 
     client.ev.on('connection.update', async (update) => {
-        const { connection } = update;
-        if (update.qr) console.log(`📱 Scan the QR code!!`);
-        if (connection === 'connecting') console.log('🔗 Connecting to WhatsApp!!');
-        if (connection === 'open') console.log('✅ Connected to WhatsApp');
-    });
+    const { connection, qr } = update;
+    if (qr) console.log(`📱 Scan the QR code!!`);
+    if (connection === 'connecting') console.log('🔗 Connecting to WhatsApp!!');
+    if (connection === 'open') console.log('✅ Connected to WhatsApp');
+});
 
     client.ev.on('messages.upsert', async ({ messages, type }) => {
         if (type !== 'notify') return;
