@@ -59,7 +59,7 @@ const start = async () => {
         }
 
         try {
-            const text = await axios.get(`https://oni-chan-unique-api.vercel.app/gpt4?text=${M.body}`);
+            const text = await axios.get(`https://oni-chan-unique-api.vercel.app/gpt4?text=answer me in genz slang: ${M.body}`);
             const botResponse = text.data.result;
             response += `*🤖Bot:* ${botResponse}`;;
 
